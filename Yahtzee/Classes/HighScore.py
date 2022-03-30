@@ -16,10 +16,10 @@ class HighScore:
     def __lt__(self, other):
         if self.getScore != other.getScore():
             return self.getScore() - other.getScore()
-        return 0
+        return NotImplemented
 
     def __eq__(self, other):  # Test this out to see if eq and lt are required
-        return self.getScore() - other.getScore()
+        return self.getScore() == other.getScore() or self.getScore() != other.getScore()
 
     def __str__(self):
         return self._name+' '+self._score

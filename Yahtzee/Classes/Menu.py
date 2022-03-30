@@ -32,8 +32,8 @@ class Menu:
         return self._score
 
     def change(self, roll):
-        self._optionIndex = self._options.index(self._option)
-        if self._checkOption():
+        self._optionIndex = self.options.index(self._option)
+        if self.checkOption():
             scoreList = self._score.getScore()
             sums = self._score.getSumsOfSingleDigitNums()
 
@@ -41,17 +41,17 @@ class Menu:
             add = False
             if scoreNum > 0:
                 add = True
-            if self._option in self._nums:
+            if self._option in self.nums:
                 scoreList[self._optionIndex] = sums[self._optionIndex]
                 self._score.addToSum(sums[self._optionIndex])
-            elif self._option in self._kind:
+            elif self._option in self.kind:
                 num = self._option[0:1]
                 self._score.addNumOfAKind(roll, num, self._optionIndex, add)
             else:
                 moveOn = False
                 index = 0
-                while not moveOn and index < sum(self._other):
-                    if self._option == self._other[index:index+1]:
+                while not moveOn and index < sum(self.other):
+                    if self._option == self.other[index:index+1]:
                         moveOn = True
                     index += 1
         else:
@@ -65,7 +65,7 @@ class Menu:
 
     def checkBonus(self):
         if self._score.getSumOfSingleDigitNums() >= 63:
-            self._score.addToBonus(self._bonusnum)
+            self._score.addToBonus(self.bonusNum)
 
     def finish(self):
         scoreList = self._score.getScore()
@@ -75,5 +75,5 @@ class Menu:
         return True
 
     def __str__(self):
-        output = Printer(self._score.getScore(), self._names)
-        return output.toString()
+        output = Printer(self._score.getScore(), self.names)
+        return output

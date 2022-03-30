@@ -2,8 +2,8 @@ import random
 
 
 class Roll:
-    startOne = {-1, -1, -1, -1, -1}
-    startTwo = {False, False, False, False, False}
+    startOne = [-1, -1, -1, -1, -1]
+    startTwo = [False, False, False, False, False]
 
     def __init__(self):
         self._roll = self._startOne
