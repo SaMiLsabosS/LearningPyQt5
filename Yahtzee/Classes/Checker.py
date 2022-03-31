@@ -4,14 +4,15 @@ from Classes.Menu import *
 class Checker(Menu):
     startOne = [0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, -1]
     startTwo = [True, True, True, True, True, True, False, False, False, False, False, False, False, False, True, False]
-    nums = [1, 2, 3, 4, 5]
+    nums = [0, 1, 2, 3, 4, 5]
     sums = [8, 9, 14]
     indexes = [10, 11, 12, 13]
     points = [25, 30, 40, 50]
 
     def __init__(self, sON):
-        self._list = self._startOne
-        self._possible = self._startTwo
+        super().__init__() # eliminate if errors arise
+        self._list = self.startOne
+        self._possible = self.startTwo
         self._sumsOfNums = sON
 
     def getList(self):
@@ -20,20 +21,20 @@ class Checker(Menu):
     def change(self, roll):
         self.checkNumsOfAKind(roll)
         self.checkFullHouse(roll)
-        self.checkSizeStraight(roll)
-        for index in range(len(self.possible)):
+        self.checkSizeStraights(roll)
+        for index in range(len(self._possible)):
             if self._possible[index]:
                 if index in self.nums:
                     self._list[index] = self._sumsOfNums[index]
                 elif index in self.sums:
-                    self._list = self._sumsOfNums[index]
-                    self._list = super().getScore().getSumOfRoll(roll)
+                    self._list[index] = super().getScore().getSumOfRoll(roll)
                 else:
                     moveOn = False
                     index2 = 0
-                    while not moveOn and index2 < len(self._indexes):
+                    while not moveOn and index2 < len(self.indexes):
                         if index == self.indexes[index2]:
-                            self._list[index] = self._points[index2]
+                            self._list[index] = self.points[index2]
+                        index2 += 1
 
     def checkNumsOfAKind(self, roll):
         numsOfAKind = [3, 4, 5]
@@ -75,7 +76,7 @@ class Checker(Menu):
         if finishTwo and finishThree:
             self._possible[indexOfFullHouse] = True
 
-    def checkSizeStraights(self, roll):
+    def checkSizeStraights(self, roll):  # check this, it doesn't work
         indexes = [11, 12]
         sequence = [3, 4]
         rollNums = roll.getRoll()
@@ -83,7 +84,7 @@ class Checker(Menu):
         for index in range(2):
             index2 = 0
             count = 0
-            while index2 < len(roll)-1 and count != sequence[index]:
+            while index2 < len(rollNums)-1 and count != sequence[index]:
                 if rollNums[index2+1] == rollNums[index2] + 1:
                     count += 1
                 index2 += 1
@@ -92,4 +93,4 @@ class Checker(Menu):
 
     def __str__(self):
         output = Printer(self._list, super().names)
-        return output
+        return output.__str__()

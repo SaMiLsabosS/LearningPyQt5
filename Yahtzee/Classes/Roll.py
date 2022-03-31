@@ -6,8 +6,8 @@ class Roll:
     startTwo = [False, False, False, False, False]
 
     def __init__(self):
-        self._roll = self._startOne
-        self._changes = self._startTwo
+        self._roll = self.startOne
+        self._changes = self.startTwo
         self._empty = False
 
     def setEmpty(self, e):
@@ -25,9 +25,9 @@ class Roll:
     def generateRoll(self):
         for index in range(len(self._roll)):
             if self._empty or self._changes[index]:
-                self._roll[index] = random.random(1, 6)
-        self._changes = {False, False, False, False, False}
+                self._roll[index] = random.randint(1, 6)
+        self._changes = [False, False, False, False, False]
         self._empty = False
 
     def __str__(self):
-        return self._roll
+        return str(self._roll)

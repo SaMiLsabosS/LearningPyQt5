@@ -3,8 +3,8 @@ class Score:
     nums = [1, 2, 3, 4, 5, 6]
 
     def __init__(self):
-        self._score = self._start
-        self._sumsOfSingleDigitNums = []
+        self._score = self.start
+        self._sumsOfSingleDigitNums = [0, 0, 0, 0, 0, 0]
         self._sumOfSingleDigitNums = 0
         self._bonus = 0
         self._total = 0
@@ -13,7 +13,7 @@ class Score:
         return self._total
 
     def getNums(self):
-        return self._nums
+        return self.nums
 
     def getScore(self):
         return self._score
@@ -31,12 +31,12 @@ class Score:
         return rollSum
 
     def updateSum(self, roll):
-        for i in range(len(self._sumsOfSingleDigitNums)):
+        for index in range(len(self._sumsOfSingleDigitNums)):
             temp = 0
             for slot in roll.getRoll():
-                if slot == self._nums[i]:
-                    temp += self._nums[i]
-            self._sumsOfSingleDigitNums[i] = temp
+                if slot == self.nums[index]:
+                    temp += self.nums[index]
+            self._sumsOfSingleDigitNums[index] = temp
 
     def addToSum(self, num):
         self._sumOfSingleDigitNums += num

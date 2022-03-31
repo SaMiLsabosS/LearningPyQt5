@@ -22,4 +22,4 @@ class HighScore:
         return self.getScore() == other.getScore() or self.getScore() != other.getScore()
 
     def __str__(self):
-        return self._name+' '+self._score
+        return self._name+' '+self._score  # add str(num)

@@ -4,12 +4,12 @@ from Classes.Score import Score
 
 class Menu:
     bonusNum = 35
-    names = {'Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes', 'Sum', 'Bonus', 'Three of a Kind',
-             'Four of a Kind', 'Full House', 'Small Straight', 'Large Straight', 'Yahtzee', 'Chance',
-             'Total'}
-    options = {'1', '2', '3', '4', '5', '6', '-', '-', '3k', '4k', 'f', 's', 'l', 'y', 'c', '-'}
-    nums = {'1', '2', '3',' 4', '5'}
-    kind = {'3k', '4k'}
+    names = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes', 'Sum', 'Bonus', '3Kind',
+             '4Kind', 'FHouse', 'Sm Str', 'Lg Str', 'Yahtzee', 'Chance',
+             'Total']
+    options = ['1', '2', '3', '4', '5', '6', '-', '-', '3k', '4k', 'f', 's', 'l', 'y', 'c', '-']
+    nums = ['1', '2', '3', ' 4', '5']
+    kind = ['3k', '4k']
     other = 'fslyc'
 
     def __init__(self):  # no final variables for python
@@ -20,7 +20,7 @@ class Menu:
         self._score = Score()
 
     def setOption(self, oP):
-        self._optionIndex = oP
+        self._option = oP
 
     def setList(self, lis):
         self._list = lis
@@ -51,7 +51,7 @@ class Menu:
                 moveOn = False
                 index = 0
                 while not moveOn and index < sum(self.other):
-                    if self._option == self.other[index:index+1]:
+                    if self._option == self.other[index:index + 1]:
                         moveOn = True
                     index += 1
         else:
@@ -76,4 +76,4 @@ class Menu:
 
     def __str__(self):
         output = Printer(self._score.getScore(), self.names)
-        return output
+        return output.__str__()
