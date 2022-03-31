@@ -61,7 +61,7 @@ def runner():
             checker = Checker(menu.getScore().getSumsOfSingleDigitNums())
             checker.change(roll)
             print(checker)
-            print('enter a score vategory -> ones<1>, twos<2>, threes<3>, fours<4>, fives<5>, sixes<6>, 3kind<3k>, '
+            print('enter a score category -> ones<1>, twos<2>, threes<3>, fours<4>, fives<5>, sixes<6>, 3kind<3k>, '
                   '4kind<4k>, fhouse<f>, sm str<s>, lg str<l>, chance<c>, yahtzee<y>: ')
             option = input()
             if option in nums or option in other:
