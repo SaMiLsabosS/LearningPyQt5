@@ -26,7 +26,7 @@ class Roll:
         for index in range(len(self._roll)):
             if self._empty or self._changes[index]:
                 self._roll[index] = random.randint(1, 6)
-        self._changes = [False, False, False, False, False]
+        self._changes = self.startTwo
         self._empty = False
 
     def __str__(self):
