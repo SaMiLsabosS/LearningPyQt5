@@ -46,27 +46,38 @@ class Button:
     def createButtons(self):
         for index in range(len(self._buttons)):
             self._buttons[index] = QPushButton(self._buttonNames[index])
-            self._buttons[index].clicked.connect(lambda: self.createClickableButton(index))
+        self._clear.clicked.connect(lambda: self._label.setText(""))
+        self._delete.clicked.connect(lambda: self.createDeleteButton())
+        self._equals.clicked.connect(lambda: self.createEqualsButton())
+        self._zero.clicked.connect(lambda: self.createClickableButton('0'))
+        self._one.clicked.connect(lambda: self.createClickableButton('1'))
+        self._two.clicked.connect(lambda: self.createClickableButton('2'))
+        self._three.clicked.connect(lambda: self.createClickableButton('3'))
+        self._four.clicked.connect(lambda: self.createClickableButton('4'))
+        self._five.clicked.connect(lambda: self.createClickableButton('5'))
+        self._six.clicked.connect(lambda: self.createClickableButton('6'))
+        self._seven.clicked.connect(lambda: self.createClickableButton('7'))
+        self._eight.clicked.connect(lambda: self.createClickableButton('8'))
+        self._nine.clicked.connect(lambda: self.createClickableButton('9'))
         # create each connect button separately
 
-    def createClickableButton(self, index):
-        if self._buttonNames[index] == '=':
-            equation = self._label.text()
-            try:
-                ans = eval(equation)
-                self._label.setText(str(ans))
-            except:
-                self._label.setText('Wrong Input')
-        elif self._buttonNames[index] == 'Del':
-            text = self._label.text()
-            output = text[:len(text) - 1]
-            print(output)
-            self._label.setText(output)
-        elif self._buttonNames[index] == 'C':
-            self._label.setText('')
-        else:
-            text = self._label.text()
-            self._label.setText(text + str(self._buttonNames[index]))
+    def createEqualsButton(self):
+        equation = self._label.text()
+        try:
+            ans = eval(equation)
+            self._label.setText(str(ans))
+        except:
+            self._label.setText('Wrong Input')
+
+    def createDeleteButton(self):
+        text = self._label.text()
+        output = text[:len(text) - 1]
+        print(output)
+        self._label.setText(output)
+
+    def createClickableButton(self, string):
+        text = self._label.text()
+        self._label.setText(text + string)
 
     def createBlueEqualSign(self):
         blue = QGraphicsColorizeEffect()
