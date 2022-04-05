@@ -19,7 +19,7 @@ def window():
     label.setAlignment(Qt.AlignRight)
     label.setFont(QFont('Arial', 15))
 
-    buttons = Button(label, widget)
+    buttons = Button(label)
     buttons.createButtons()
     buttons.createBlueEqualSign()
 
