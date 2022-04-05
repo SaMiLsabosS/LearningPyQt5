@@ -10,22 +10,25 @@ def window():
 
     widget = QWidget()
     widget.setWindowTitle('Python Calculator')
+    widget.setGeometry(100, 100, 20, 523)
+    widget.setStyleSheet("background-color: #1d1d1d")
 
-    label = QLabel()
-    label.setGeometry(5, 5, 350, 70)
-    label.setWordTrap(True)
+    label = QLabel(widget)
+    label.setGeometry(5, 5, 324, 70)
+    label.setWordWrap(True)
     label.setAlignment(Qt.AlignRight)
-    label.setFont('Arial', 15)
+    label.setFont(QFont('Arial', 15))
 
-    buttons = Button(label)
+    buttons = Button(label, widget)
     buttons.createButtons()
     buttons.createBlueEqualSign()
 
-    grid = QGridLayout(widget)
+    grid = QGridLayout()
     coordinates = buttons.getCoordinates()
     for index in range(len(coordinates)):
-        grid.addWidget(buttons.getButtons()[index], coordinates[index][0:1], coordinates[index][1:2])
-    hbox = QHBoxLayout(widget)
+        grid.addWidget(buttons.getButtons()[index], int(coordinates[index][0:1]), int(coordinates[index][1:2]))
+    widget.setLayout(grid)
+
     widget.show()
     sys.exit(app.exec_())
 
