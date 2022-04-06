@@ -42,7 +42,7 @@ class Button:
         return self._buttons[num]
 
     def createButtons(self):
-        self._clear.clicked.connect(lambda: self._label.setText(""))
+        self._clear.clicked.connect(lambda: self._label.setText('0'))
         self._delete.clicked.connect(lambda: self.createDeleteButton())
         self._equals.clicked.connect(lambda: self.createEqualsButton())
         self._zero.clicked.connect(lambda: self.createClickableButton('0'))
@@ -55,7 +55,7 @@ class Button:
         self._seven.clicked.connect(lambda: self.createClickableButton('7'))
         self._eight.clicked.connect(lambda: self.createClickableButton('8'))
         self._nine.clicked.connect(lambda: self.createClickableButton('9'))
-        self._decimal.clicked.connect(lambda: self.createClickableButton('.'))
+        self._decimal.clicked.connect(lambda: self.createDecimalButton())
         self._posToNeg.clicked.connect(lambda: self.createNegationButton())
         self._division.clicked.connect(lambda: self.createClickableButton('/'))
         self._multiplication.clicked.connect(lambda: self.createClickableButton('*'))
@@ -64,7 +64,8 @@ class Button:
 
     def createNegationButton(self):
         text = self._label.text()
-        self.checkForZeroOrWrongInput(text)
+        if text == 'Wrong Input' or text == '0':
+            text = ''
         if text[0:1] != '-':
             self._label.setText('-'+text)
         else:
@@ -72,7 +73,8 @@ class Button:
 
     def createEqualsButton(self):
         equation = self._label.text()
-        self.checkForZeroOrWrongInput(equation)
+        if equation == 'Wrong Input' or equation == '0':
+            text = ''
         try:
             ans = eval(equation)
             self._label.setText(str(ans))
@@ -81,21 +83,25 @@ class Button:
 
     def createDeleteButton(self):
         text = self._label.text()
-        self.checkForZeroOrWrongInput(text)
-        output = text[:len(text) - 1]
-        print(output)
-        self._label.setText(output)
+        if text == 'Wrong Input':
+            text = ''
+        elif text != '0':
+            text = text[:len(text) - 1]
+        self._label.setText(text)
 
     def createClickableButton(self, string):
         text = self._label.text()
-        self.checkForZeroOrWrongInput(text)
+        if text == 'Wrong Input' or text == '0':
+            text = ''
         self._label.setText(text + string)
+
+    def createDecimalButton(self):
+        text = self._label.text()
+        if '.' not in text:
+            self._label.setText(text + '.')
 
     def createBlueEqualSign(self):
         blue = QGraphicsColorizeEffect()
         blue.setColor(Qt.blue)
         self.getVar(len(self._buttons)-1).setGraphicsEffect(blue)
 
-    def checkForZeroOrWrongInput(self, text): # fix this function
-        if text == 'Wrong Input' or '0':
-            text = ''
