@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from math import sqrt  # yes it is needed
 
 
 class Button:
@@ -25,12 +25,14 @@ class Button:
         self._addition = QPushButton('+')
         self._equals = QPushButton('=')
         self._squaring = QPushButton('x²')
+        self._squareRoot = QPushButton('√x')
+        self._oneOverX = QPushButton('1/x')
         self._coordinates = ['02', '03', '52', '50', '51', '40', '41', '42', '30', '31', '32', '20', '21', '22', '13',
-                             '23', '33', '43', '53', '11']
+                             '23', '33', '43', '53', '11', '12', '10']
         self._buttons = [self._clear, self._delete, self._decimal, self._posToNeg, self._zero, self._one, self._two,
                          self._three, self._four, self._five, self._six, self._seven, self._eight, self._nine,
                          self._division, self._multiplication, self._subtraction, self._addition, self._equals,
-                         self._squaring]
+                         self._squaring, self._squareRoot, self._oneOverX]
         self._label = label
 
     def getButtons(self):
@@ -62,6 +64,9 @@ class Button:
         self._multiplication.clicked.connect(lambda: self.createArithmeticButton('*'))
         self._subtraction.clicked.connect(lambda: self.createArithmeticButton('-'))
         self._addition.clicked.connect(lambda: self.createArithmeticButton('+'))
+        self._squaring.clicked.connect(lambda: self.createSquaringButton())
+        self._squareRoot.clicked.connect(lambda: self.createSquareRootButton('sqrt('))
+        self._oneOverX.clicked.connect(lambda: self.createOneOverXButton())
         for index in range(len(self._buttons)):
             self._buttons[index].setSizePolicy(
                 QSizePolicy.Preferred,
@@ -73,38 +78,79 @@ class Button:
                 'font-weight: bold;'
             )
 
+    def createOneOverXButton(self):
+        text = self._label.text()
+        if text == 'Invalid Input':
+            text = ''
+        else:
+            text = '1/'+text
+        try:
+            if '/0' in text:
+                self._label.setText('Cannot Divide by Zero')
+            else:
+                ans = eval(text)
+                self._label.setText(str(ans))
+        except:
+            self._label.setText('Invalid Input')
+
+    def createSquareRootButton(self, string):
+        text = self._label.text()
+        if text == 'Invalid Input':
+            text = ''
+        else:
+            text = string + text + ')'
+        try:
+            ans = eval(text)
+            self._label.setText(str(ans))
+        except:
+            self._label.setText('Invalid Input')
+
+    def createSquaringButton(self):
+        text = self._label.text()
+        equation = self._label.text() + '*' + self._label.text()
+        if text == 'Invalid Input':
+            equation = ''
+        try:
+            ans = eval(equation)
+            self._label.setText(str(ans))
+        except:
+            self._label.setText('Invalid Input')
+
     def createNegationButton(self):
         text = self._label.text()
-        if text == 'Wrong Input' or text == '0':
+        if text == 'Invalid Input':
             text = ''
-        if text[0:1] != '-':
+        elif text == '0':
+            self._label.setText(text)
+        elif text[0:1] != '-':
             self._label.setText('-'+text)
         else:
             self._label.setText(text[1:])
 
     def createEqualsButton(self):
         equation = self._label.text()
-        if equation == 'Wrong Input' or equation == '0':
+        if equation == 'Invalid Input' or equation == '0':
             text = ''
         try:
-            ans = eval(equation)
-            self._label.setText(str(ans))
+            if '/0' in equation:
+                self._label.setText('Cannot Divide by Zero')
+            else:
+                ans = eval(equation)
+                self._label.setText(str(ans))
         except:
-            self._label.setText('Wrong Input')
+            self._label.setText('Invalid Input')
 
     def createArithmeticButton(self, string):
         text = self._label.text()
-        if text == 'Wrong Input':
+        if text == 'Invalid Input':
             text = ''
-        elif text == '0':
-            text = text+string
         else:
             text = text + string
         self._label.setText(text)
 
     def createDeleteButton(self):
         text = self._label.text()
-        if text == 'Wrong Input':
+        if text == 'Invalid Input':
             text = '0'
         elif text != '0':
             text = text[:len(text) - 1]
@@ -114,7 +160,7 @@ class Button:
 
     def createClickableButton(self, string):
         text = self._label.text()
-        if text == 'Wrong Input' or text == '0':
+        if text == 'Invalid Input' or text == '0':
             text = ''
         self._label.setText(text + string)
 
@@ -133,4 +179,3 @@ class Button:
             'font-size: 15px;'
             'font-weight: bold;'
         )
-

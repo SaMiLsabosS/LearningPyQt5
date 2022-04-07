@@ -10,7 +10,7 @@ def window():
 
     widget = QWidget()
     widget.setWindowTitle('Python Calculator')
-    widget.setGeometry(100, 100, 20, 523)
+    widget.setGeometry(100, 100, 478, 524) # 321, 524
     widget.setStyleSheet("background-color: #e6e6e6")
 
     label = QLabel(widget)
