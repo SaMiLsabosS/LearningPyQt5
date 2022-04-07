@@ -11,13 +11,13 @@ def window():
     widget = QWidget()
     widget.setWindowTitle('Python Calculator')
     widget.setGeometry(100, 100, 20, 523)
-    widget.setStyleSheet("background-color: white")  # #1d1d1d
+    widget.setStyleSheet("background-color: #e6e6e6")
 
     label = QLabel(widget)
     label.setGeometry(5, 5, 324, 70)
     label.setWordWrap(True)
     label.setAlignment(Qt.AlignRight)
-    label.setFont(QFont('Arial', 15))
+    label.setFont(QFont('Sogue UI Bold', 35))
     label.setText('0')
 
     buttons = Button(label)
@@ -28,7 +28,12 @@ def window():
     coordinates = buttons.getCoordinates()
     for index in range(len(coordinates)):
         grid.addWidget(buttons.getButtons()[index], int(coordinates[index][0:1]), int(coordinates[index][1:2]))
-    widget.setLayout(grid)
+
+    vbox = QVBoxLayout()
+    vbox.addWidget(label)
+    vbox.addLayout(grid)
+
+    widget.setLayout(vbox)
 
     widget.show()
     sys.exit(app.exec_())
