@@ -85,9 +85,9 @@ class Button:
         else:
             text = '1/'+text
         try:
-            if '/0' in text:
+            if text == '1/0' or text == '1/0.0':
                 self._label.setText('Cannot Divide by Zero')
-            else:
+            elif text != 'Cannot Divide by Zero':
                 ans = eval(text)
                 self._label.setText(str(ans))
         except:
@@ -132,11 +132,8 @@ class Button:
         if equation == 'Invalid Input' or equation == '0':
             text = ''
         try:
-            if '/0' in equation:
-                self._label.setText('Cannot Divide by Zero')
-            else:
-                ans = eval(equation)
-                self._label.setText(str(ans))
+            ans = eval(equation)
+            self._label.setText(str(ans))
         except:
             self._label.setText('Invalid Input')
 
@@ -150,7 +147,7 @@ class Button:
 
     def createDeleteButton(self):
         text = self._label.text()
-        if text == 'Invalid Input':
+        if text == 'Invalid Input' or text == 'Cannot Divide by Zero':
             text = '0'
         elif text != '0':
             text = text[:len(text) - 1]
@@ -160,7 +157,7 @@ class Button:
 
     def createClickableButton(self, string):
         text = self._label.text()
-        if text == 'Invalid Input' or text == '0':
+        if text == 'Invalid Input' or text == '0' or text == 'Cannot Divide by Zero':
             text = ''
         self._label.setText(text + string)
 
@@ -168,6 +165,8 @@ class Button:
         text = self._label.text()
         if '.' not in text:
             self._label.setText(text + '.')
+        elif text == 'Invalid Input':
+            self._label.setText(text)
 
     def createBlueEqualSign(self):
         # blue = QGraphicsColorizeEffect()
