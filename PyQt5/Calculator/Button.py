@@ -169,9 +169,6 @@ class Button:
             self._label.setText(text)
 
     def createBlueEqualSign(self):
-        # blue = QGraphicsColorizeEffect()
-        # blue.setColor(Qt.blue)
-        # self._equals.setGraphicsEffect(blue)
         self._equals.setStyleSheet(
             'background-color: #2d79eb;'
             'border-style: none;'
