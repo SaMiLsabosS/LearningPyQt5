@@ -16,7 +16,7 @@ class PyYahtzeeUI(QMainWindow):
         self.thirdLayout = QHBoxLayout()
         self.fourthLayout = QHBoxLayout()
         self.firstLayout = QVBoxLayout()
-        self.rollButton = QPushButton('ROLL')
+        self.rollButton = QPushButton('ROLL')  # create a createRollButton()
         self.rollButton.setStyleSheet(
             'background-color: green;'
             'border: white;'
