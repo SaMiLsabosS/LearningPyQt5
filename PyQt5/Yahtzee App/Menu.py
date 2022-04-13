@@ -30,6 +30,8 @@ class PyYahtzeeUI(QMainWindow):
         self._diceGrid = QGridLayout()
         self._roll = [QPushButton('-1'), QPushButton('-1'), QPushButton('-1'), QPushButton('-1'),
                       QPushButton('-1')]
+        self._listOfYourDice = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
+                                QPushButton(' ')]
         self._diceInventory = QGridLayout()
         self.createFirstLayout()
         self.secondLayout = QVBoxLayout()
@@ -182,7 +184,8 @@ class PyYahtzeeUI(QMainWindow):
 
     def createDice(self):
         for index in range(len(self._roll)):   # IDEA: Make each dice an image of the dice needed
-            self._roll[index] = QPushButton(str(random.randint(1, 6)))
+            randomNum = str(random.randint(1,6))
+            self._roll[index] = QPushButton(randomNum)
             self._roll[index].setFixedSize(50, 150)
             self._diceGrid.addWidget(self._roll[index], 0, index)
             self._roll[index].setSizePolicy(
@@ -194,18 +197,24 @@ class PyYahtzeeUI(QMainWindow):
                 'font-size: 15px;'
                 'font-weight: bold;'
             )
+        self._roll[0].clicked.connect(lambda: self.createDiceButton(0))
+        self._roll[1].clicked.connect(lambda: self.createDiceButton(1))
+        self._roll[2].clicked.connect(lambda: self.createDiceButton(2))
+        self._roll[3].clicked.connect(lambda: self.createDiceButton(3))
+        self._roll[4].clicked.connect(lambda: self.createDiceButton(4))
 
     def rollButtonFunction(self):
         if self._tries == 0:
             self._tries += 1
             self.createDice()
             self.firstLayout.addLayout(self._diceGrid)
-            listOfYourDice = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
-                              QPushButton(' ')]
-            for index in range(len(listOfYourDice)):
-                self._roll[index].setFixedSize(50, 150)
-                self._diceInventory.addWidget(listOfYourDice[index], 0, index)
-                listOfYourDice[index].setStyleSheet(
+            for index in range(len(self._listOfYourDice)):
+                self._listOfYourDice[index].setFixedSize(50, 150)
+                self._diceInventory.addWidget(self._listOfYourDice[index], 0, index)
+                self._listOfYourDice[index].setSizePolicy(
+                    QSizePolicy.Preferred,
+                    QSizePolicy.Expanding)
+                self._listOfYourDice[index].setStyleSheet(
                     'background-color: transparent;'
                     'border-style: black;'
                     'font-size: 15px;'
@@ -275,3 +284,11 @@ class PyYahtzeeUI(QMainWindow):
                 sixthGrid.addWidget(listOfSecondPossibleScores[index], index + 1, 0)
 
             self.fourthLayout.addLayout(sixthGrid)
+
+    def createDiceButton(self, index):
+        dice = self._roll[index].text()
+        for index2 in range(len(self._listOfYourDice)):
+            if self._listOfYourDice[index2].text() == ' ':
+                self._listOfYourDice[index2].setText(dice)
+                self._roll[index].setText(' ')
+                break
