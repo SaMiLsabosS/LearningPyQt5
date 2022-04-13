@@ -1,7 +1,8 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QPushButton, QLabel, QMainWindow
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QGridLayout, QSizePolicy
+from PyQt5.QtWidgets import QPushButton, QLabel, QWidget, QMainWindow
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QSizePolicy
 
 
 class PyYahtzeeUI(QMainWindow):
@@ -9,10 +10,20 @@ class PyYahtzeeUI(QMainWindow):
         super().__init__()
 
         self.setWindowTitle('PyYahtzee')
-        self.setGeometry(0, 30, 600, 300)
+        self.setGeometry(0, 0, 952, 575)
 
         self.generalLayout = QHBoxLayout()
+        self.thirdLayout = QHBoxLayout()
+        self.fourthLayout = QHBoxLayout()
         self.firstLayout = QVBoxLayout()
+        self.rollButton = QPushButton('ROLL')
+        self.rollButton.setStyleSheet(
+            'background-color: green;'
+            'border: white;'
+            'font-size: 15px;'
+            'font-weight: bold;'
+        )
+        self.rollButton.setGeometry(10, 10, 50, 100)
         self.createFirstLayout()
         self.secondLayout = QVBoxLayout()
         self.createSecondLayout()
@@ -27,44 +38,33 @@ class PyYahtzeeUI(QMainWindow):
     def createFirstLayout(self):
         label = QLabel(self.centralWidget())
         label.setText('The Yahtzee Manifesto')
-        label.setGeometry(70, 80, 100, 100)
+        label.setGeometry(70, 80, 50, 90)
         label.setStyleSheet(
             'background-color: #ffd9a7;'
-            'border: none;'  # if this doesn't work then figure out how
+            'border: none;'  # Figure out how to make it italicized
         )
         label.setFont(QFont('Arial', 30))
         label.setAlignment(Qt.AlignCenter)
         self.firstLayout.addWidget(label)
 
-        rollButton = QPushButton('ROLL')
-        rollButton.setStyleSheet(
-            'background-color: green;'
-            'border: white;'
-            'font-size: 15px;'
-            'font-weight: bold;'
-        )
-        rollButton.setGeometry(10, 10, 50, 200)
-        self.firstLayout.addWidget(rollButton)
+        self.firstLayout.addWidget(self.rollButton)
+        self.rollButton.clicked.connect(self.rollButtonFunction)
 
         grid = QGridLayout()
         self.createDice(grid)  # this will occur if the roll button is clicked on initially
         self.firstLayout.addLayout(grid)  # fix this grid layout when the roll dice button is pressed
 
     def createSecondLayout(self):
-        hbox1 = QHBoxLayout()
-        hbox2 = QHBoxLayout()
-
         firstGrid = QGridLayout()
-        upperSection = {'UPPER SECTION': (0, 0)}
-        for btntext, pos in upperSection.items():
-            upperSection[btntext] = QPushButton(btntext)
-            upperSection[btntext].setStyleSheet(
-                'background-color: green;'
-                'border: black;'
-                'font-size: 18px;'
-                'font-weight: bold;'
-            )
-            firstGrid.addWidget(upperSection[btntext], pos[0], pos[1])
+
+        upperSection = QPushButton('UPPER SECTION')
+        upperSection.setStyleSheet(
+            'background-color: green;'
+            'border: black;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        firstGrid.addWidget(upperSection, 0, 0)
 
         listOfUpperButtons = {
             'Aces': (1, 0),
@@ -84,28 +84,27 @@ class PyYahtzeeUI(QMainWindow):
             )
             firstGrid.addWidget(listOfUpperButtons[btntext], pos[0], pos[1])
 
-        hbox1.addLayout(firstGrid)
+        self.thirdLayout.addLayout(firstGrid)
 
         secondGrid = QGridLayout()
-        lowerSection = {'LOWER SECTION': (8, 0)}
-        for btntext, pos in lowerSection.items():
-            lowerSection[btntext] = QPushButton(btntext)
-            lowerSection[btntext].setStyleSheet(
-                'background-color: green;'
-                'border: black;'
-                'font-size: 18px;'
-                'font-weight: bold;'
-            )
-            secondGrid.addWidget(lowerSection[btntext], pos[0], pos[1])
+
+        lowerSection = QPushButton('LOWER SECTION')
+        lowerSection.setStyleSheet(
+            'background-color: green;'
+            'border: black;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        secondGrid.addWidget(lowerSection, 0, 0)
 
         listOfLowerButtons = {
-            '3 of a kind': (9, 0),
-            '4 of a kind': (10, 0),
-            'Full House': (11, 0),
-            'Small Straight': (12, 0),
-            'Large Straight': (13, 0),
-            'Yahtzee': (14, 0),
-            'Chance': (15, 0)
+            '3 of a kind': (1, 0),
+            '4 of a kind': (2, 0),
+            'Full House': (3, 0),
+            'Small Straight': (4, 0),
+            'Large Straight': (5, 0),
+            'Yahtzee': (6, 0),
+            'Chance': (7, 0)
         }
         for btntext, pos in listOfLowerButtons.items():
             listOfLowerButtons[btntext] = QPushButton(btntext)
@@ -116,20 +115,18 @@ class PyYahtzeeUI(QMainWindow):
             )
             secondGrid.addWidget(listOfLowerButtons[btntext], pos[0], pos[1])
 
-        hbox2.addLayout(secondGrid)
+        self.fourthLayout.addLayout(secondGrid)
 
         thirdGrid = QGridLayout()
 
-        scoreOne = {'SCORE': (0, 0)}
-        for btntext, pos in scoreOne.items():
-            scoreOne[btntext] = QPushButton(btntext)
-            scoreOne[btntext].setStyleSheet(
-                'background-color: green;'
-                'border: black;'
-                'font-size: 18px;'
-                'font-weight: bold;'
-            )
-            thirdGrid.addWidget(scoreOne[btntext], pos[0], pos[1])
+        scoreOne = QPushButton('SCORE')
+        scoreOne.setStyleSheet(
+            'background-color: green;'
+            'border: black;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        thirdGrid.addWidget(scoreOne, 0, 0)
 
         listOfTopScores = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
                            QPushButton(' '), QPushButton(' ')]
@@ -141,20 +138,18 @@ class PyYahtzeeUI(QMainWindow):
             )
             thirdGrid.addWidget(listOfTopScores[index], index + 1, 0)
 
-        hbox1.addLayout(thirdGrid)
+        self.thirdLayout.addLayout(thirdGrid)
 
         fourthGrid = QGridLayout()
 
-        scoreTwo = {'SCORE': (8, 0)}
-        for btntext, pos in scoreTwo.items():
-            scoreTwo[btntext] = QPushButton(btntext)
-            scoreTwo[btntext].setStyleSheet(
-                'background-color: green;'
-                'border: black;'
-                'font-size: 18px;'
-                'font-weight: bold;'
-            )
-            fourthGrid.addWidget(scoreTwo[btntext], pos[0], pos[1])
+        scoreTwo = QPushButton('SCORE')
+        scoreTwo.setStyleSheet(
+            'background-color: green;'
+            'border: black;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        fourthGrid.addWidget(scoreTwo, 0, 0)
 
         listOfBottomScores = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
                               QPushButton(' '), QPushButton(' ')]
@@ -164,43 +159,12 @@ class PyYahtzeeUI(QMainWindow):
                 'border: black;'
                 'font-size: 15px;'
             )
-            fourthGrid.addWidget(listOfBottomScores[index], index + 9, 0)
+            fourthGrid.addWidget(listOfBottomScores[index], index + 1, 0)
 
-        hbox2.addLayout(fourthGrid)
+        self.fourthLayout.addLayout(fourthGrid)
 
-        fifthGrid = QGridLayout()  # make this when the roll button in initially clicked
-
-        listOfFirstPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
-                                     QPushButton('0'), QPushButton('0')]  # might have to account for the bonus
-
-        for index in range(len(listOfFirstPossibleScores)):
-            listOfFirstPossibleScores[index].setStyleSheet(
-                'background-color: grey;'
-                'border: black;'
-                'font-size: 15px;'
-            )
-            fifthGrid.addWidget(listOfFirstPossibleScores[index], index+1, 0)
-
-        hbox1.addLayout(fifthGrid)
-
-        sixthGrid = QGridLayout()
-
-        listOfSecondPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
-                                      QPushButton('0'), QPushButton('0'), QPushButton('0')]
-        # might have to account for the bonus
-
-        for index in range(len(listOfSecondPossibleScores)):
-            listOfSecondPossibleScores[index].setStyleSheet(
-                'background-color: grey;'
-                'border: black;'
-                'font-size: 15px;'
-            )
-            sixthGrid.addWidget(listOfSecondPossibleScores[index], index + 1, 0)
-
-        hbox2.addLayout(sixthGrid)
-
-        self.secondLayout.addLayout(hbox1)
-        self.secondLayout.addLayout(hbox2)
+        self.secondLayout.addLayout(self.thirdLayout)
+        self.secondLayout.addLayout(self.fourthLayout)
 
     def createDisplay(self):
         label = QLabel(self._centralWidget)
@@ -213,17 +177,16 @@ class PyYahtzeeUI(QMainWindow):
         )
 
     def createDice(self, grid):
-        diceButtons = {
+        diceButtons = {  # IDEA: Make each dice an image of the dice needed
             '1': (0, 0),
             '2': (0, 1),
             '3': (0, 2),
             '4': (0, 3),
-            '5': (0, 4),
-            '6': (0, 5)
+            '5': (0, 4)
         }
         for btntext, pos in diceButtons.items():
             diceButtons[btntext] = QPushButton(btntext)
-            diceButtons[btntext].setFixedSize(120, 280)
+            diceButtons[btntext].setFixedSize(50, 150)
             grid.addWidget(diceButtons[btntext], pos[0], pos[1])
             diceButtons[btntext].setSizePolicy(
                 QSizePolicy.Preferred,
@@ -234,3 +197,61 @@ class PyYahtzeeUI(QMainWindow):
                 'font-size: 15px;'
                 'font-weight: bold;'
             )
+
+    @pyqtSlot()
+    def rollButtonFunction(self):
+        fifthGrid = QGridLayout()
+
+        invisibleHeader = QPushButton(' ')
+        invisibleHeader.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        fifthGrid.addWidget(invisibleHeader, 0, 0)
+
+        listOfFirstPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
+                                     QPushButton('0'), QPushButton('0')]  # might have to account for the bonus
+
+        for index in range(len(listOfFirstPossibleScores)):
+            listOfFirstPossibleScores[index].setStyleSheet(
+                'background-color: grey;'
+                'border: black;'
+                'font-size: 15px;'
+            )
+            fifthGrid.addWidget(listOfFirstPossibleScores[index], index + 1, 0)
+
+        invisibleButton = QPushButton(' ')
+        invisibleButton.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+        )
+        fifthGrid.addWidget(invisibleButton, 7, 0)
+
+        self.thirdLayout.addLayout(fifthGrid)
+
+        sixthGrid = QGridLayout()
+
+        invisibleHeaderTwo = QPushButton(' ')
+        invisibleHeaderTwo.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        sixthGrid.addWidget(invisibleHeaderTwo, 0, 0)
+
+        listOfSecondPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
+                                      QPushButton('0'), QPushButton('0'), QPushButton('0')]
+        # might have to account for the bonus, I don't think I need to
+
+        for index in range(len(listOfSecondPossibleScores)):
+            listOfSecondPossibleScores[index].setStyleSheet(
+                'background-color: grey;'
+                'border: black;'
+                'font-size: 15px;'
+            )
+            sixthGrid.addWidget(listOfSecondPossibleScores[index], index + 1, 0)
+
+        self.fourthLayout.addLayout(sixthGrid)
