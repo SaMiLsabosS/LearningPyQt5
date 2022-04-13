@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, pyqtSlot
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QPushButton, QLabel, QWidget, QMainWindow
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QSizePolicy
 class PyYahtzeeUI(QMainWindow):
     def __init__(self):
         super().__init__()
+        self._initial = False
 
         self.setWindowTitle('PyYahtzee')
         self.setGeometry(0, 0, 952, 575)
@@ -16,7 +17,7 @@ class PyYahtzeeUI(QMainWindow):
         self.thirdLayout = QHBoxLayout()
         self.fourthLayout = QHBoxLayout()
         self.firstLayout = QVBoxLayout()
-        self.rollButton = QPushButton('ROLL')  # create a createRollButton()
+        self.rollButton = QPushButton('ROLL')
         self.rollButton.setStyleSheet(
             'background-color: green;'
             'border: white;'
@@ -49,10 +50,6 @@ class PyYahtzeeUI(QMainWindow):
 
         self.firstLayout.addWidget(self.rollButton)
         self.rollButton.clicked.connect(self.rollButtonFunction)
-
-        grid = QGridLayout()
-        self.createDice(grid)  # this will occur if the roll button is clicked on initially
-        self.firstLayout.addLayout(grid)  # fix this grid layout when the roll dice button is pressed
 
     def createSecondLayout(self):
         firstGrid = QGridLayout()
@@ -198,8 +195,11 @@ class PyYahtzeeUI(QMainWindow):
                 'font-weight: bold;'
             )
 
-    @pyqtSlot()
     def rollButtonFunction(self):
+        grid = QGridLayout()
+        self.createDice(grid)
+        self.firstLayout.addLayout(grid)
+
         fifthGrid = QGridLayout()
 
         invisibleHeader = QPushButton(' ')
