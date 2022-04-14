@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QPushButton, QLabel, QWidget, QMainWindow
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
 from PyQt5.QtWidgets import QSizePolicy
 import random
+import Controller
 
 
 class PyYahtzeeUI(QMainWindow):
@@ -11,14 +12,6 @@ class PyYahtzeeUI(QMainWindow):
         super().__init__()
         self._initial = False
         self._tries = 0
-
-        self.setWindowTitle('PyYahtzee')
-        self.setGeometry(0, 0, 952, 575)
-
-        self.generalLayout = QHBoxLayout()
-        self.thirdLayout = QHBoxLayout()
-        self.fourthLayout = QHBoxLayout()
-        self.firstLayout = QVBoxLayout()
         self.rollButton = QPushButton('ROLL')
         self.rollButton.setStyleSheet(
             'background-color: green;'
@@ -33,18 +26,29 @@ class PyYahtzeeUI(QMainWindow):
         self._listOfYourDice = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
                                 QPushButton(' ')]
         self._diceInventory = QGridLayout()
-        self.createFirstLayout()
-        self.secondLayout = QVBoxLayout()
-        self.createSecondLayout()
+
+        # initializing UI
+        self.setWindowTitle('PyYahtzee')
+        self.setGeometry(0, 0, 952, 575)
 
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
 
-        self.generalLayout.addLayout(self.firstLayout)  # Try QStackedLayout()
-        self.generalLayout.addLayout(self.secondLayout)
+        self.generalLayout = QHBoxLayout()
+        self.firstVLayout = QVBoxLayout()
+        self.secondVLayout = QVBoxLayout()
+        self.firstHLayout = QHBoxLayout()
+        self.secondHLayout = QHBoxLayout()
+        self.createFirstVLayout()
+        self.createSecondVLayout()
+
+        self.generalLayout.addLayout(self.firstVLayout)  # Try QStackedLayout()
+        self.secondVLayout.addLayout(self.firstHLayout)
+        self.secondVLayout.addLayout(self.secondHLayout)
+        self.generalLayout.addLayout(self.secondVLayout)
         self._centralWidget.setLayout(self.generalLayout)
 
-    def createFirstLayout(self):
+    def createFirstVLayout(self):
         label = QLabel(self.centralWidget())
         label.setText('The Yahtzee Manifesto')
         label.setGeometry(70, 80, 50, 90)
@@ -55,12 +59,12 @@ class PyYahtzeeUI(QMainWindow):
         )
         label.setFont(QFont('Arial', 30))
         label.setAlignment(Qt.AlignCenter)
-        self.firstLayout.addWidget(label)
+        self.firstVLayout.addWidget(label)
 
-        self.firstLayout.addWidget(self.rollButton)
+        self.firstVLayout.addWidget(self.rollButton)
         self.rollButton.clicked.connect(self.rollButtonFunction)
 
-    def createSecondLayout(self):
+    def createSecondVLayout(self):
         firstGrid = QGridLayout()
 
         upperSection = QPushButton('UPPER SECTION')
@@ -90,7 +94,7 @@ class PyYahtzeeUI(QMainWindow):
             )
             firstGrid.addWidget(listOfUpperButtons[btntext], pos[0], pos[1])
 
-        self.thirdLayout.addLayout(firstGrid)
+        self.firstHLayout.addLayout(firstGrid)
 
         secondGrid = QGridLayout()
 
@@ -121,7 +125,7 @@ class PyYahtzeeUI(QMainWindow):
             )
             secondGrid.addWidget(listOfLowerButtons[btntext], pos[0], pos[1])
 
-        self.fourthLayout.addLayout(secondGrid)
+        self.secondHLayout.addLayout(secondGrid)
 
         thirdGrid = QGridLayout()
 
@@ -144,7 +148,7 @@ class PyYahtzeeUI(QMainWindow):
             )
             thirdGrid.addWidget(listOfTopScores[index], index + 1, 0)
 
-        self.thirdLayout.addLayout(thirdGrid)
+        self.firstHLayout.addLayout(thirdGrid)
 
         fourthGrid = QGridLayout()
 
@@ -167,10 +171,7 @@ class PyYahtzeeUI(QMainWindow):
             )
             fourthGrid.addWidget(listOfBottomScores[index], index + 1, 0)
 
-        self.fourthLayout.addLayout(fourthGrid)
-
-        self.secondLayout.addLayout(self.thirdLayout)
-        self.secondLayout.addLayout(self.fourthLayout)
+        self.secondHLayout.addLayout(fourthGrid)
 
     def createDisplay(self):
         label = QLabel(self._centralWidget)
@@ -207,7 +208,7 @@ class PyYahtzeeUI(QMainWindow):
         if self._tries == 0:
             self._tries += 1
             self.createDice()
-            self.firstLayout.addLayout(self._diceGrid)
+            self.firstVLayout.addLayout(self._diceGrid)
             for index in range(len(self._listOfYourDice)):
                 self._listOfYourDice[index].setFixedSize(50, 150)
                 self._diceInventory.addWidget(self._listOfYourDice[index], 0, index)
@@ -220,7 +221,7 @@ class PyYahtzeeUI(QMainWindow):
                     'font-size: 15px;'
                     'font-weight: bold;'
                 )
-            self.firstLayout.addLayout(self._diceInventory)
+            self.firstVLayout.addLayout(self._diceInventory)
         elif 0 < self._tries < 3:
             self._tries += 1
             for index in range(len(self._roll)):
@@ -258,7 +259,7 @@ class PyYahtzeeUI(QMainWindow):
             )
             fifthGrid.addWidget(invisibleButton, 7, 0)
 
-            self.thirdLayout.addLayout(fifthGrid)
+            self.firstHLayout.addLayout(fifthGrid)
 
             sixthGrid = QGridLayout()
 
@@ -283,7 +284,7 @@ class PyYahtzeeUI(QMainWindow):
                 )
                 sixthGrid.addWidget(listOfSecondPossibleScores[index], index + 1, 0)
 
-            self.fourthLayout.addLayout(sixthGrid)
+            self.secondHLayout.addLayout(sixthGrid)
 
     def createDiceButton(self, index):
         dice = self._roll[index].text()
