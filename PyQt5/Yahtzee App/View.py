@@ -138,7 +138,7 @@ class PyYahtzeeUI(QMainWindow):
             self._listOfTopScores[index].setStyleSheet(
                 'background-color: transparent;'
                 'border: black;'
-                'font-size: 15px;'
+                'font-size: 15px;'  # align them with the grid on both sides when the score buttons disappear
             )
             self._thirdGrid.addWidget(self._listOfTopScores[index], index + 1, 0)
 

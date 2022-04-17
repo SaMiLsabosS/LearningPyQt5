@@ -19,8 +19,8 @@ class Controller:
                                            QPushButton('0'), QPushButton('0')]
         self._listOfSecondPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
                                             QPushButton('0'), QPushButton('0'), QPushButton('0')]
-        self._pushFirstPossibleScores = [True, True, True, True, True, True]
-        self._pushSecondPossibleScores = [True, True, True, True, True, True, True]
+        self._pushPossibleScores = [True, True, True, True, True, True, True, True, True, True, True, True, True]
+        # 6 + 7
         self._fifthGrid = QGridLayout()
         self._sixthGrid = QGridLayout()
         self._tries = 0
@@ -33,44 +33,31 @@ class Controller:
         listOfBottomScores = self._view.getListOfBottomScores()
         self._view.getRollButton().clicked.connect(self.rollButtonFunction)
         self._listOfFirstPossibleScores[0].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 0,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 0))
         self._listOfFirstPossibleScores[1].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 1,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 1))
         self._listOfFirstPossibleScores[2].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 2,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 2))
         self._listOfFirstPossibleScores[3].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 3,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 3))
         self._listOfFirstPossibleScores[4].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 4,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 4))
         self._listOfFirstPossibleScores[5].clicked.connect(lambda: self.addToScoreAndReset(listOfTopScores, 5,
-                                                           self._listOfFirstPossibleScores,
-                                                           self._pushFirstPossibleScores))
+                                                           self._listOfFirstPossibleScores, 5))
         self._listOfSecondPossibleScores[0].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 0,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 6))
         self._listOfSecondPossibleScores[1].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 1,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 7))
         self._listOfSecondPossibleScores[2].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 2,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 8))
         self._listOfSecondPossibleScores[3].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 3,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 9))
         self._listOfSecondPossibleScores[4].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 4,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 10))
         self._listOfSecondPossibleScores[5].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 5,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 11))
         self._listOfSecondPossibleScores[6].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 6,
-                                                            self._listOfSecondPossibleScores,
-                                                            self._pushSecondPossibleScores))
+                                                            self._listOfSecondPossibleScores, 12))
 
     def establishScoreButtons(self):
         invisibleHeader = QPushButton(' ')
@@ -107,7 +94,7 @@ class Controller:
             'font-weight: bold;'
         )
         self._sixthGrid.addWidget(invisibleHeaderTwo, 0, 0)
-        # might have to account for the bonus, I don't think I need to
+
         for index in range(len(self._listOfSecondPossibleScores)):
             self._listOfSecondPossibleScores[index].setStyleSheet(
                 'background-color: grey;'
@@ -129,7 +116,8 @@ class Controller:
         elif 0 < self._tries < 3:
             self._tries += 1
             for index in range(len(self._roll)):
-                self._roll[index].setText(str(random.randint(1, 6)))  # fix this the number of dice left
+                if self._roll[index].text() != ' ':  # shift the dice to the left when less than 5
+                    self._roll[index].setText(str(random.randint(1, 6)))
 
     def createDice(self):
         if self._initial:
@@ -149,7 +137,7 @@ class Controller:
                 self._view.getDiceGrid().addWidget(self._roll[index], 0, index)
             self._view.firstVLayout.addLayout(self._view.getDiceGrid())
         else:
-            for index in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
+            for index in range(len(self._roll)):
                 randomNum = str(random.randint(1, 6))
                 self._roll[index] = QPushButton(randomNum)
         self._roll[0].clicked.connect(lambda: self.createDiceButton(0))
@@ -200,15 +188,19 @@ class Controller:
                 break  # talk to Mr.Bonsall about using break
 
     def updateSumOfRollAndScoreButtons(self):
-        sumOfRoll = self._model.getSumOfRoll()
-        if sumOfRoll != '0':
-            sumOfRoll = '+'+sumOfRoll
-        self._listOfSecondPossibleScores[6].setText(sumOfRoll)
+        self._model.updateSumOfRoll(self._listOfSecondPossibleScores[6])
+        self._model.updateSumsOfSingleDigitNums(self._yourDice)
+        for index in range(len(self._model.getSumsOfSingleDigitNums())):
+            if self._pushPossibleScores[index]:
+                temp = self._model.getIndexOfSumsOfSingleDigitNums(index)
+                if temp != '0':
+                    temp = '+'+temp
+                self._listOfFirstPossibleScores[index].setText(temp)
         # create a method that returns a set of places to update a score button to the score
 
-    def addToScoreAndReset(self, listOfScores, index, score, push):
-        if push[index]:
-            push[index] = False
+    def addToScoreAndReset(self, listOfScores, index, score, indexOfPush):
+        if self._pushPossibleScores[indexOfPush]:
+            self._pushPossibleScores[indexOfPush] = False
             if listOfScores[index].text() == ' ':
                 total = int(score[index].text())
             else:
@@ -224,6 +216,13 @@ class Controller:
                 self._roll[index2].setText(randomNum)
             for index3 in range(len(self._yourDice)):
                 self._yourDice[index3].setText(' ')
+            self._model.setSumOfRoll(0)
+            for index4 in range(len(self._listOfFirstPossibleScores)):
+                if self._pushPossibleScores[index4]:
+                    self._listOfFirstPossibleScores[index4].setText('0')
+            for index5 in range(len(self._listOfSecondPossibleScores)):
+                if self._pushPossibleScores[index5+6]:
+                    self._listOfSecondPossibleScores[index5].setText('0')
 
 
 if __name__ == '__main__':
@@ -231,7 +230,5 @@ if __name__ == '__main__':
     model = Model.Model()
     view = View.PyYahtzeeUI()
     controller = Controller(model, view)
-    # a method of some sorts could go here
-    # add in the .clicked.connect functions here
     view.show()
     sys.exit(app.exec_())
