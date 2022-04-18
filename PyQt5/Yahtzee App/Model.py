@@ -28,6 +28,9 @@ class Model:
     def getTotal(self):
         return self._totalPoints
 
+    def addToTotal(self, num):
+        self._totalPoints += num
+
     def addToSumOfRoll(self, num):
         self._sumOfRoll += int(num)
 

@@ -45,10 +45,16 @@ class PyYahtzeeUI(QMainWindow):
                                  QPushButton(' '), QPushButton(' '), QPushButton(' ')]  # change buttons into labels
         self._listOfBottomScores = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
                                     QPushButton(' '), QPushButton(' '), QPushButton(' ')]
+        self._listOfFirstPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
+                                           QPushButton('0'), QPushButton('0')]
+        self._listOfSecondPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
+                                            QPushButton('0'), QPushButton('0'), QPushButton('0')]
         self._firstGrid = QGridLayout()
         self._secondGrid = QGridLayout()
         self._thirdGrid = QGridLayout()
         self._fourthGrid = QGridLayout()
+        self._fifthGrid = QGridLayout()
+        self._sixthGrid = QGridLayout()
         self.createFirstVLayout()
         self.createSecondVLayout()
 
@@ -75,6 +81,12 @@ class PyYahtzeeUI(QMainWindow):
 
     def getListOfBottomScores(self):
         return self._listOfBottomScores
+
+    def getListOfFirstPossibleScores(self):
+        return self._listOfFirstPossibleScores
+
+    def getListOfSecondPossibleScores(self):
+        return self._listOfSecondPossibleScores
 
     def createFirstVLayout(self):
         self.establishLabel()
@@ -177,3 +189,49 @@ class PyYahtzeeUI(QMainWindow):
         self._label.setFont(QFont('Arial', 30))
         self._label.setAlignment(Qt.AlignCenter)
         self.firstVLayout.addWidget(self._label)
+
+    def establishScoreButtons(self):
+        invisibleHeader = QPushButton(' ')
+        invisibleHeader.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        self._fifthGrid.addWidget(invisibleHeader, 0, 0)
+
+        for index in range(len(self._listOfFirstPossibleScores)):
+            self._listOfFirstPossibleScores[index].setStyleSheet(
+                'background-color: grey;'
+                'border: black;'
+                'font-size: 15px;'
+            )
+            self._fifthGrid.addWidget(self._listOfFirstPossibleScores[index], index + 1, 0)
+
+        invisibleButton = QPushButton(' ')
+        invisibleButton.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+        )
+        self._fifthGrid.addWidget(invisibleButton, 7, 0)
+
+        self.firstHLayout.addLayout(self._fifthGrid)
+
+        invisibleHeaderTwo = QPushButton(' ')
+        invisibleHeaderTwo.setStyleSheet(
+            'background-color: transparent;'
+            'border: none;'
+            'font-size: 18px;'
+            'font-weight: bold;'
+        )
+        self._sixthGrid.addWidget(invisibleHeaderTwo, 0, 0)
+
+        for index in range(len(self._listOfSecondPossibleScores)):
+            self._listOfSecondPossibleScores[index].setStyleSheet(
+                'background-color: grey;'
+                'border: black;'
+                'font-size: 15px;'
+            )
+            self._sixthGrid.addWidget(self._listOfSecondPossibleScores[index], index + 1, 0)
+
+        self.secondHLayout.addLayout(self._sixthGrid)
