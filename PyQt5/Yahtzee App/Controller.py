@@ -230,18 +230,30 @@ class Controller:
             self._tries = 1
             totalPoints = self._model.getTotal()
             totalPoints += total
-            for index2 in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
-                randomNum = str(random.randint(1, 6))  # do this after everything works
-                self._roll[index2].setText(randomNum)
-            for index3 in range(len(self._yourDice)):
-                self._yourDice[index3].setText(' ')
-            self._model.setSumOfRoll(0)
-            for index4 in range(len(self._listOfFirstPossibleScores)):
-                if self._pushPossibleScores[index4]:
-                    self._listOfFirstPossibleScores[index4].setText('0')
-            for index5 in range(len(self._listOfSecondPossibleScores)):
-                if self._pushPossibleScores[index5+6]:
-                    self._listOfSecondPossibleScores[index5].setText('0')
+            finish = True
+            for i in range(len(self._pushPossibleScores)):
+                if self._pushPossibleScores[i]:
+                    finish = False
+            if not finish:
+                for index2 in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
+                    randomNum = str(random.randint(1, 6))  # do this after everything works
+                    self._roll[index2].setText(randomNum)
+                for index3 in range(len(self._yourDice)):
+                    self._yourDice[index3].setText(' ')
+                self._model.setSumOfRoll(0)
+                for index4 in range(len(self._listOfFirstPossibleScores)):
+                    if self._pushPossibleScores[index4]:
+                        self._listOfFirstPossibleScores[index4].setText('0')
+                for index5 in range(len(self._listOfSecondPossibleScores)):
+                    if self._pushPossibleScores[index5+6]:
+                        self._listOfSecondPossibleScores[index5].setText('0')
+            else:
+                for index2 in range(len(self._roll)):
+                    self._roll[index2].setText(' ')
+                for index3 in range(len(self._yourDice)):
+                    self._yourDice[index3].setText(' ')
+                label = self._view.getLabel()
+                label.setText('The Yahtzee Manifesto\nTotal = '+str(self._model.getTotal()))  # fix the total
 
 
 if __name__ == '__main__':

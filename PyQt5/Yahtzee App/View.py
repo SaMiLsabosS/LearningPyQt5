@@ -67,6 +67,9 @@ class PyYahtzeeUI(QMainWindow):
     def getDiceInventory(self):
         return self._diceInventory
 
+    def getLabel(self):
+        return self._label
+
     def getListOfTopScores(self):
         return self._listOfTopScores
 
