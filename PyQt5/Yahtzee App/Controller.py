@@ -245,9 +245,9 @@ class Controller:
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)  # Look at stack overflow for customizing the Application
+    app = QApplication(sys.argv)
     model = Model.Model()
     view = View.PyYahtzeeUI()
     controller = Controller(model, view)
-    view.show()
+    view.show()  # create the end screen
     sys.exit(app.exec_())
