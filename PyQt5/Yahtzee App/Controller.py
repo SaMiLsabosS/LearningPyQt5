@@ -169,13 +169,14 @@ class Controller:
 
     def createDiceButton(self, index):
         dice = self._roll[index].text()
-        for index2 in range(len(self._yourDice)):
-            if self._yourDice[index2].text() == ' ':
-                self._yourDice[index2].setText(dice)
-                self._model.addToSumOfRoll(dice)
-                self._roll[index].setText(' ')
-                self.updateSumOfRollAndScoreButtons()
-                break  # talk to Mr.Bonsall about using break
+        if dice != ' ':
+            for index2 in range(len(self._yourDice)):
+                if self._yourDice[index2].text() == ' ':
+                    self._yourDice[index2].setText(dice)
+                    self._model.addToSumOfRoll(dice)
+                    self._roll[index].setText(' ')
+                    self.updateSumOfRollAndScoreButtons()
+                    break  # talk to Mr.Bonsall about using break
 
     def createYourDiceButton(self, index):
         dice = self._yourDice[index].text()
@@ -196,7 +197,21 @@ class Controller:
                 if temp != '0':
                     temp = '+'+temp
                 self._listOfFirstPossibleScores[index].setText(temp)
+        count = 0
+        for index in range(len(self._yourDice)):
+            if self._yourDice[index].text() != ' ':
+                count += 1
+        if count == 5:
+            self._model.checkUniqueScores(self._yourDice)
+            listOfUniqueScores = self._model.getUniqueScores()
+            for index2 in range(len(listOfUniqueScores)):
+                if self._pushPossibleScores[6+index2]:
+                    newNum = str(listOfUniqueScores[index2])
+                    if newNum != '0':
+                        newNum = '+'+newNum
+                    self._listOfSecondPossibleScores[index2].setText(newNum)
         # create a method that returns a set of places to update a score button to the score
+        # this could reduce space within the controller and put more code in the model
 
     def addToScoreAndReset(self, listOfScores, index, score, indexOfPush):
         if self._pushPossibleScores[indexOfPush]:
