@@ -210,6 +210,7 @@ class Controller:
                     if newNum != '0':
                         newNum = '+'+newNum
                     self._listOfSecondPossibleScores[index2].setText(newNum)
+        self._model.setUniqueScores([0, 0, 0, 0, 0, 0])
         # create a method that returns a set of places to update a score button to the score
         # this could reduce space within the controller and put more code in the model
 
@@ -226,6 +227,8 @@ class Controller:
                 'background-color: transparent;'
             )
             self._tries = 1
+            totalPoints = self._model.getTotal()
+            totalPoints += total
             for index2 in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
                 randomNum = str(random.randint(1, 6))
                 self._roll[index2].setText(randomNum)

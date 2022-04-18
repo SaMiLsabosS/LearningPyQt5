@@ -10,6 +10,9 @@ class Model:
     def setSumOfRoll(self, newSum):
         self._sumOfRoll = newSum
 
+    def setUniqueScores(self, newList):
+        self._uniqueScores = newList
+
     def getSumOfRoll(self):
         return str(self._sumOfRoll)
 
@@ -72,14 +75,14 @@ class Model:
                 else:
                     self._uniqueScores[5] = 50
 
-    def checkFullHouse(self, roll):  # fix this, doesn't work at all
+    def checkFullHouse(self, roll):
         finishTwo = False
         finishThree = False
         index = 0
         while index < len(self.nums) and (not finishTwo or not finishThree):
             temp = 0
             for index2 in range(len(roll)):
-                if self.nums[index] == roll[index2].text():
+                if self.nums[index] == int(roll[index2].text()):
                     temp += 1
             if temp == 2:
                 finishTwo = True
