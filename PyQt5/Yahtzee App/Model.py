@@ -93,7 +93,6 @@ class Model:
             self._uniqueScores[2] = 25
 
     def checkStraights(self, roll):
-        # fix this, roll might not be changing / returns same true categories from previous roll
         sequence = [3, 4]
         rollNums = [0, 0, 0, 0, 0]
         for index in range(len(roll)):

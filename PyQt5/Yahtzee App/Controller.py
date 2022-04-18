@@ -59,7 +59,7 @@ class Controller:
         self._listOfSecondPossibleScores[6].clicked.connect(lambda: self.addToScoreAndReset(listOfBottomScores, 6,
                                                             self._listOfSecondPossibleScores, 12))
 
-    def establishScoreButtons(self):
+    def establishScoreButtons(self):  # ask Mr.Bonsall if I should move this to the view
         invisibleHeader = QPushButton(' ')
         invisibleHeader.setStyleSheet(
             'background-color: transparent;'
@@ -69,7 +69,7 @@ class Controller:
         )
         self._fifthGrid.addWidget(invisibleHeader, 0, 0)
 
-        for index in range(len(self._listOfFirstPossibleScores)):  # might have to account for the bonus
+        for index in range(len(self._listOfFirstPossibleScores)):  # research how to get the bonus
             self._listOfFirstPossibleScores[index].setStyleSheet(
                     'background-color: grey;'
                     'border: black;'
@@ -116,13 +116,13 @@ class Controller:
         elif 0 < self._tries < 3:
             self._tries += 1
             for index in range(len(self._roll)):
-                if self._roll[index].text() != ' ':  # shift the dice to the left when less than 5
+                if self._roll[index].text() != ' ':
                     self._roll[index].setText(str(random.randint(1, 6)))
 
     def createDice(self):
         if self._initial:
             for index in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
-                randomNum = str(random.randint(1, 6))
+                randomNum = str(random.randint(1, 6))  # do that after everything works
                 self._roll[index] = QPushButton(randomNum)
                 self._roll[index].setFixedSize(50, 150)
                 self._roll[index].setSizePolicy(
@@ -213,6 +213,7 @@ class Controller:
         self._model.setUniqueScores([0, 0, 0, 0, 0, 0])
         # create a method that returns a set of places to update a score button to the score
         # this could reduce space within the controller and put more code in the model
+        # do this after everything works
 
     def addToScoreAndReset(self, listOfScores, index, score, indexOfPush):
         if self._pushPossibleScores[indexOfPush]:
@@ -230,7 +231,7 @@ class Controller:
             totalPoints = self._model.getTotal()
             totalPoints += total
             for index2 in range(len(self._roll)):  # IDEA: Make each dice an image of the dice needed
-                randomNum = str(random.randint(1, 6))
+                randomNum = str(random.randint(1, 6))  # do this after everything works
                 self._roll[index2].setText(randomNum)
             for index3 in range(len(self._yourDice)):
                 self._yourDice[index3].setText(' ')
