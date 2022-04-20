@@ -10,7 +10,7 @@ class View(QMainWindow):
         self._yellow = '#fff63a'
         # Initializing UI
         self.setWindowTitle('PyConnectFour')
-        self.setGeometry(0, 0, 952, 575)
+        self.setFixedSize(952, 675)
 
         self._firstCentralWidget = QWidget(self)
         self.setCentralWidget(self._firstCentralWidget)
@@ -31,8 +31,8 @@ class View(QMainWindow):
         self._player2Label = QLabel('Player 2')
 
         self._selectGrid = QGridLayout()
-        self._rowChooser = [QLabel(' '), QPushButton('1st'), QPushButton('2nd'), QPushButton('3rd'), QPushButton('4th'),
-                            QPushButton('5th'), QPushButton('6th'), QPushButton('7th'), QLabel(' ')]
+        self._rowChooser = [QPushButton('1st'), QPushButton('2nd'), QPushButton('3rd'), QPushButton('4th'),
+                            QPushButton('5th'), QPushButton('6th'), QPushButton('7th')]
         self._boardOverImage = QStackedLayout()
         self._imageLabel = QLabel(' ')
         self._board = QGridLayout()
@@ -88,14 +88,13 @@ class View(QMainWindow):
         self._playingVBoxLayout.addLayout(self._selectGrid)
 
         self._imageLabel.setStyleSheet(
-            'background-image: url(connectfourboard.png);'
+            'background-image: url(connectfourboard.jpg);'
         )
         self._boardOverImage.addWidget(self._imageLabel)
         for row in range(7):
             for col in range(6):
-                self._board.addWidget(QLabel(' '), row, col)
+                self._board.addWidget(QLabel('1'), row, col)
         self._boardOverImage.addChildLayout(self._board)
-        # add labels to the self._board and then add that to self._boardOverImage
 
         self._playingVBoxLayout.addLayout(self._boardOverImage)
         secondCentralWidget.setLayout(self._playingVBoxLayout)
