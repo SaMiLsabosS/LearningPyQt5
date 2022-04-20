@@ -10,6 +10,18 @@ class Controller:
     def __init__(self, view_obj, model_obj):
         self._view = view_obj
         self._model = model_obj
+        self.establishStartButton()
+
+    def establishStartButton(self):
+        mainButton = self._view.getMainScreenButton()
+        mainButton.clicked.connect(lambda: self.startButtonFunction())
+
+    def startButtonFunction(self):
+        self._view.createPlayScreen()
+    #     self.establishPlayingButtons()
+    #
+    # def establishPlayingButtons(self):
+
 
 
 if __name__ == '__main__':

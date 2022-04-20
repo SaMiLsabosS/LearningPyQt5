@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QPixmap
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QPushButton, QVBoxLayout, QGridLayout, QStackedLayout
 
 
@@ -37,6 +37,12 @@ class View(QMainWindow):
         self._imageLabel = QLabel(' ')
         self._board = QGridLayout()
 
+    def getMainScreenLabel(self):
+        return self._mainScreenLabel
+
+    def getMainScreenButton(self):
+        return self._mainScreenButton
+
     def createStartingScreen(self):
         self._mainScreenLabel.setGeometry(70, 80, 50, 90)
         self._mainScreenLabel.setStyleSheet(
@@ -59,21 +65,21 @@ class View(QMainWindow):
 
     def createPlayScreen(self):
         # eliminating the previous screen
-
-        # creating the screen
         secondCentralWidget = QWidget(self)
         self.setCentralWidget(secondCentralWidget)
-
+        # creating the screen
         self._topGrid.addWidget(self._player1Label, 0, 0)
         self._yellowLabel.setStyleSheet(
             'background-color: '+self._yellow+';'
         )
         self._topGrid.addWidget(self._yellowLabel, 0, 1)
+        self._playersTurnLabel.setAlignment(Qt.AlignCenter)
         self._topGrid.addWidget(self._playersTurnLabel, 0, 2)
         self._redLabel.setStyleSheet(
             'background-color: '+self._red+';'
         )
         self._topGrid.addWidget(self._redLabel, 0, 3)
+        self._player2Label.setAlignment(Qt.AlignRight)
         self._topGrid.addWidget(self._player2Label, 0, 4)
         self._playingVBoxLayout.addLayout(self._topGrid)
 
@@ -82,9 +88,13 @@ class View(QMainWindow):
         self._playingVBoxLayout.addLayout(self._selectGrid)
 
         self._imageLabel.setStyleSheet(
-            'background-image: connectfourboard.png'
+            'background-image: url(connectfourboard.png);'
         )
         self._boardOverImage.addWidget(self._imageLabel)
+        for row in range(7):
+            for col in range(6):
+                self._board.addWidget(QLabel(' '), row, col)
+        self._boardOverImage.addChildLayout(self._board)
         # add labels to the self._board and then add that to self._boardOverImage
 
         self._playingVBoxLayout.addLayout(self._boardOverImage)
