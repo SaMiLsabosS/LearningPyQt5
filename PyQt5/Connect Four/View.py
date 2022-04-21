@@ -31,15 +31,15 @@ class View(QMainWindow):
         self._player2Label = QLabel('Player 2')
 
         self._selectGrid = QGridLayout()
-        self._rowChooser = [QPushButton('1st'), QPushButton('2nd'), QPushButton('3rd'), QPushButton('4th'),
+        self._colChooser = [QPushButton('1st'), QPushButton('2nd'), QPushButton('3rd'), QPushButton('4th'),
                             QPushButton('5th'), QPushButton('6th'), QPushButton('7th')]
         self._boardOverImage = QStackedLayout()
         self._imageLabel = QLabel(' ')
-        self._labels = [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
-                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
-                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
-                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
-                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), ]  # make this into a two D array
+        self._labels = [[QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()], [QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()], [QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()]]  # make this into a two D array
         self._board = QGridLayout()
 
     def getMainScreenLabel(self):
@@ -48,8 +48,8 @@ class View(QMainWindow):
     def getMainScreenButton(self):
         return self._mainScreenButton
 
-    def getRowChooser(self):
-        return self._rowChooser
+    def getColChooser(self):
+        return self._colChooser
 
     def getPlayer1Color(self):
         return self._yellow
@@ -57,8 +57,11 @@ class View(QMainWindow):
     def getPlayer2Color(self):
         return self._red
 
-    def getBoard(self):
-        return self._board
+    def getLabels(self):
+        return self._labels
+
+    def getPlayersTurnLabel(self):
+        return self._playersTurnLabel
 
     def createStartingScreen(self):
         self._mainScreenLabel.setGeometry(70, 80, 50, 90)
@@ -84,7 +87,11 @@ class View(QMainWindow):
         # eliminating the previous screen
         secondCentralWidget = QWidget(self)
         self.setCentralWidget(secondCentralWidget)
+        secondCentralWidget.setStyleSheet(
+            'background-image: url(connectfourboard.jpg);'
+        )
         # creating the screen
+        self._player1Label.setAlignment(Qt.AlignLeft)
         self._topGrid.addWidget(self._player1Label, 0, 0)
         self._yellowLabel.setStyleSheet(
             'background-color: '+self._yellow+';'
@@ -100,21 +107,23 @@ class View(QMainWindow):
         self._topGrid.addWidget(self._player2Label, 0, 4)
         self._playingVBoxLayout.addLayout(self._topGrid)
 
-        for index in range(len(self._rowChooser)):
-            self._selectGrid.addWidget(self._rowChooser[index], 0, index)
+        for index in range(len(self._colChooser)):
+            self._selectGrid.addWidget(self._colChooser[index], 0, index)
         self._playingVBoxLayout.addLayout(self._selectGrid)
 
-        self._imageLabel.setStyleSheet(
-            'background-image: url(connectfourboard.jpg);'
-        )
-        self._boardOverImage.addWidget(self._imageLabel)
+        # self._imageLabel.setStyleSheet(
+        #     'background-image: url(connectfourboard.jpg);'
+        # )
+        # self._boardOverImage.addWidget(self._imageLabel)
 
-        for row in range(7):
-            for col in range(6):
-                self._board.addWidget(QLabel(), row, col)
-        self._boardOverImage.addChildLayout(self._board)
+        for row in range(6):
+            for col in range(7):
+                self._board.addWidget(self._labels[row][col], row, col)
+        # self._boardOverImage.addChildLayout(self._board)
 
-        self._playingVBoxLayout.addLayout(self._boardOverImage)
+        self._playingVBoxLayout.addLayout(self._board)
+
+        # self._playingVBoxLayout.addLayout(self._boardOverImage)
         secondCentralWidget.setLayout(self._playingVBoxLayout)
 
 
