@@ -18,9 +18,21 @@ class Controller:
 
     def startButtonFunction(self):
         self._view.createPlayScreen()
-    #     self.establishPlayingButtons()
-    #
-    # def establishPlayingButtons(self):
+        self.establishPlayingButtons()
+
+    def establishPlayingButtons(self):
+        rowChooser = self._view.getRowChooser()
+        rowChooser[0].clicked.connect(lambda: self.rowChooserFunction(rowChooser[0]))
+
+    def rowChooserFunction(self, button):
+        playerTurn = self._model.getPlayerTurn()
+        board = self._view.getBoard()
+        if playerTurn == 1:
+            player1Color = self._view.getPlayer1Color()
+
+
+        else:
+            player2Color = self._view.getPlayer2Color()
 
 
 

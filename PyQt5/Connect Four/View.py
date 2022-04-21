@@ -35,6 +35,11 @@ class View(QMainWindow):
                             QPushButton('5th'), QPushButton('6th'), QPushButton('7th')]
         self._boardOverImage = QStackedLayout()
         self._imageLabel = QLabel(' ')
+        self._labels = [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), ]  # make this into a two D array
         self._board = QGridLayout()
 
     def getMainScreenLabel(self):
@@ -42,6 +47,18 @@ class View(QMainWindow):
 
     def getMainScreenButton(self):
         return self._mainScreenButton
+
+    def getRowChooser(self):
+        return self._rowChooser
+
+    def getPlayer1Color(self):
+        return self._yellow
+
+    def getPlayer2Color(self):
+        return self._red
+
+    def getBoard(self):
+        return self._board
 
     def createStartingScreen(self):
         self._mainScreenLabel.setGeometry(70, 80, 50, 90)
@@ -91,9 +108,10 @@ class View(QMainWindow):
             'background-image: url(connectfourboard.jpg);'
         )
         self._boardOverImage.addWidget(self._imageLabel)
+
         for row in range(7):
             for col in range(6):
-                self._board.addWidget(QLabel('1'), row, col)
+                self._board.addWidget(QLabel(), row, col)
         self._boardOverImage.addChildLayout(self._board)
 
         self._playingVBoxLayout.addLayout(self._boardOverImage)
