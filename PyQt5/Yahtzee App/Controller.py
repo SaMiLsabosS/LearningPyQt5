@@ -227,14 +227,13 @@ class Controller:
                 for index3 in range(len(self._yourDice)):
                     self._yourDice[index3].setText(' ')
                 self.possiblyAddBonus()
-                label = self._view.getLabel()
-                label.setText('The Yahtzee Manifesto\nTotal = ' + str(self._model.getTotal()))
+                self._view.createEndScreen(self._model.getTotal())
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     model = Model.Model()
-    view = View.PyYahtzeeUI()
+    view = View.View()
     controller = Controller(model, view)
-    view.show()  # create the end screen
+    view.show()
     sys.exit(app.exec_())

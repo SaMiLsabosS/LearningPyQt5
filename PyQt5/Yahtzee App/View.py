@@ -4,12 +4,15 @@ from PyQt5.QtWidgets import QPushButton, QLabel, QWidget, QMainWindow
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
 
 
-class PyYahtzeeUI(QMainWindow):
+class View(QMainWindow):
     def __init__(self):
         super().__init__()
         # initializing UI
         self.setWindowTitle('PyYahtzee')
-        self.setGeometry(0, 0, 952, 575)
+        # self.setStyleSheet(
+        #     'background-image: url(wood.jfif);'
+        # )
+        self.setFixedSize(972, 700)
 
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
@@ -23,42 +26,29 @@ class PyYahtzeeUI(QMainWindow):
         self._rollButton = QPushButton('ROLL')
         self._diceGrid = QGridLayout()
         self._diceInventory = QGridLayout()
-        self._listOfUpperScoreTitles = {
-            'Aces': (1, 0),
-            'Twos': (2, 0),
-            'Three': (3, 0),
-            'Fours': (4, 0),
-            'Fives': (5, 0),
-            'Sixes': (6, 0),
-            'Bonus': (7, 0)
-        }
-        self._listOfLowerScoreTitles = {
-            '3 of a kind': (1, 0),
-            '4 of a kind': (2, 0),
-            'Full House': (3, 0),
-            'Small Straight': (4, 0),
-            'Large Straight': (5, 0),
-            'Yahtzee': (6, 0),
-            'Chance': (7, 0)
-        }
-        self._listOfTopScores = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
-                                 QPushButton(' '), QPushButton(' '), QPushButton(' ')]  # change buttons into labels
-        self._listOfBottomScores = [QPushButton(' '), QPushButton(' '), QPushButton(' '), QPushButton(' '),
-                                    QPushButton(' '), QPushButton(' '), QPushButton(' ')]
+        self._listOfUpperScoreTitles = [QLabel('Aces'), QLabel('Twos'), QLabel('Threes'), QLabel('Fours'),
+                                        QLabel('Fives'), QLabel('Sixes'), QLabel('Bonus')]
+        self._listOfLowerScoreTitles = [QLabel('3 of a kind'), QLabel('4 of a kind'), QLabel('Full House'),
+                                        QLabel('Small Straight'), QLabel('Large Straight'), QLabel('Yahtzee'),
+                                        QLabel('Chance')]
+        self._listOfTopScores = [QLabel(' '), QLabel(' '), QLabel(' '), QLabel(' '),
+                                 QLabel(' '), QLabel(' '), QLabel(' ')]
+        self._listOfBottomScores = [QLabel(' '), QLabel(' '), QLabel(' '), QLabel(' '),
+                                    QLabel(' '), QLabel(' '), QLabel(' ')]
         self._listOfFirstPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
                                            QPushButton('0'), QPushButton('0')]
         self._listOfSecondPossibleScores = [QPushButton('0'), QPushButton('0'), QPushButton('0'), QPushButton('0'),
                                             QPushButton('0'), QPushButton('0'), QPushButton('0')]
-        self._firstGrid = QGridLayout()
-        self._secondGrid = QGridLayout()
+        self._topScoreTitlesVBOX = QVBoxLayout()
+        self._bottomScoreTitlesVBOX = QVBoxLayout()
         self._thirdGrid = QGridLayout()
         self._fourthGrid = QGridLayout()
-        self._fifthGrid = QGridLayout()
-        self._sixthGrid = QGridLayout()
+        self._topPossibleScoreVBOX = QVBoxLayout()
+        self._bottomPossibleScoreVBOX = QVBoxLayout()
         self.createFirstVLayout()
         self.createSecondVLayout()
 
-        self.generalLayout.addLayout(self.firstVLayout)  # Try QStackedLayout()
+        self.generalLayout.addLayout(self.firstVLayout)
         self.secondVLayout.addLayout(self.firstHLayout)
         self.secondVLayout.addLayout(self.secondHLayout)
         self.generalLayout.addLayout(self.secondVLayout)
@@ -107,18 +97,18 @@ class PyYahtzeeUI(QMainWindow):
             'font-size: 18px;'
             'font-weight: bold;'
         )
-        self._firstGrid.addWidget(upperSection, 0, 0)
+        self._topScoreTitlesVBOX.addWidget(upperSection)
 
-        for btntext, pos in self._listOfUpperScoreTitles.items():
-            self._listOfUpperScoreTitles[btntext] = QPushButton(btntext)
-            self._listOfUpperScoreTitles[btntext].setStyleSheet(
+        for index in range(len(self._listOfUpperScoreTitles)):
+            self._listOfUpperScoreTitles[index].setStyleSheet(
                 'background-color: transparent;'
                 'border: black;'
                 'font-size: 15px;'
             )
-            self._firstGrid.addWidget(self._listOfUpperScoreTitles[btntext], pos[0], pos[1])
+            self._listOfUpperScoreTitles[index].setAlignment(Qt.AlignCenter)
+            self._topScoreTitlesVBOX.addWidget(self._listOfUpperScoreTitles[index])
 
-        self.firstHLayout.addLayout(self._firstGrid)
+        self.firstHLayout.addLayout(self._topScoreTitlesVBOX)
 
         lowerSection = QPushButton('LOWER SECTION')
         lowerSection.setStyleSheet(
@@ -127,18 +117,18 @@ class PyYahtzeeUI(QMainWindow):
             'font-size: 18px;'
             'font-weight: bold;'
         )
-        self._secondGrid.addWidget(lowerSection, 0, 0)
+        self._bottomScoreTitlesVBOX.addWidget(lowerSection)
 
-        for btntext, pos in self._listOfLowerScoreTitles.items():
-            self._listOfLowerScoreTitles[btntext] = QPushButton(btntext)
-            self._listOfLowerScoreTitles[btntext].setStyleSheet(
+        for index in range(len(self._listOfLowerScoreTitles)):
+            self._listOfLowerScoreTitles[index].setStyleSheet(
                 'background-color: transparent;'
                 'border: black;'
                 'font-size: 15px;'
             )
-            self._secondGrid.addWidget(self._listOfLowerScoreTitles[btntext], pos[0], pos[1])
+            self._listOfLowerScoreTitles[index].setAlignment(Qt.AlignCenter)
+            self._bottomScoreTitlesVBOX.addWidget(self._listOfLowerScoreTitles[index])
 
-        self.secondHLayout.addLayout(self._secondGrid)
+        self.secondHLayout.addLayout(self._bottomScoreTitlesVBOX)
 
         scoreOne = QPushButton('SCORE')
         scoreOne.setStyleSheet(
@@ -153,8 +143,9 @@ class PyYahtzeeUI(QMainWindow):
             self._listOfTopScores[index].setStyleSheet(
                 'background-color: transparent;'
                 'border: black;'
-                'font-size: 15px;'  # align them with the grid on both sides when the score buttons disappear
+                'font-size: 15px;'
             )
+            self._listOfTopScores[index].setAlignment(Qt.AlignCenter)
             self._thirdGrid.addWidget(self._listOfTopScores[index], index + 1, 0)
 
         self.firstHLayout.addLayout(self._thirdGrid)
@@ -174,6 +165,7 @@ class PyYahtzeeUI(QMainWindow):
                 'border: black;'
                 'font-size: 15px;'
             )
+            self._listOfBottomScores[index].setAlignment(Qt.AlignCenter)
             self._fourthGrid.addWidget(self._listOfBottomScores[index], index + 1, 0)
 
         self.secondHLayout.addLayout(self._fourthGrid)
@@ -181,12 +173,13 @@ class PyYahtzeeUI(QMainWindow):
     def establishLabel(self):
         self._label.setText('The Yahtzee Manifesto')
         self._label.setGeometry(70, 80, 50, 90)
+        self._label.setFont(QFont('Arial', 30))
         self._label.setStyleSheet(
             'background-color: #ffd9a7;'
-            'border: none;'  # Figure out how to make it italicized
-            'background-image: url(wood.jfif)'
+            'background-image: url(wood.jfif);'
+            'font-style: italic;'
+            'color: #ff221c'
         )
-        self._label.setFont(QFont('Arial', 30))
         self._label.setAlignment(Qt.AlignCenter)
         self.firstVLayout.addWidget(self._label)
 
@@ -198,7 +191,7 @@ class PyYahtzeeUI(QMainWindow):
             'font-size: 18px;'
             'font-weight: bold;'
         )
-        self._fifthGrid.addWidget(invisibleHeader, 0, 0)
+        self._topPossibleScoreVBOX.addWidget(invisibleHeader)
 
         for index in range(len(self._listOfFirstPossibleScores)):
             self._listOfFirstPossibleScores[index].setStyleSheet(
@@ -206,16 +199,16 @@ class PyYahtzeeUI(QMainWindow):
                 'border: black;'
                 'font-size: 15px;'
             )
-            self._fifthGrid.addWidget(self._listOfFirstPossibleScores[index], index + 1, 0)
+            self._topPossibleScoreVBOX.addWidget(self._listOfFirstPossibleScores[index])
 
         invisibleButton = QPushButton(' ')
         invisibleButton.setStyleSheet(
             'background-color: transparent;'
             'border: none;'
         )
-        self._fifthGrid.addWidget(invisibleButton, 7, 0)
+        self._topPossibleScoreVBOX.addWidget(invisibleButton)
 
-        self.firstHLayout.addLayout(self._fifthGrid)
+        self.firstHLayout.addLayout(self._topPossibleScoreVBOX)
 
         invisibleHeaderTwo = QPushButton(' ')
         invisibleHeaderTwo.setStyleSheet(
@@ -224,7 +217,7 @@ class PyYahtzeeUI(QMainWindow):
             'font-size: 18px;'
             'font-weight: bold;'
         )
-        self._sixthGrid.addWidget(invisibleHeaderTwo, 0, 0)
+        self._bottomPossibleScoreVBOX.addWidget(invisibleHeaderTwo)
 
         for index in range(len(self._listOfSecondPossibleScores)):
             self._listOfSecondPossibleScores[index].setStyleSheet(
@@ -232,6 +225,40 @@ class PyYahtzeeUI(QMainWindow):
                 'border: black;'
                 'font-size: 15px;'
             )
-            self._sixthGrid.addWidget(self._listOfSecondPossibleScores[index], index + 1, 0)
+            self._bottomPossibleScoreVBOX.addWidget(self._listOfSecondPossibleScores[index])
 
-        self.secondHLayout.addLayout(self._sixthGrid)
+        self.secondHLayout.addLayout(self._bottomPossibleScoreVBOX)
+
+    def createEndScreen(self, total):
+        secondCentralWidget = QWidget(self)
+        # secondCentralWidget.setStyleSheet(
+        #     'background-image: url((wood.jfif));'
+        # )
+        self.setCentralWidget(secondCentralWidget)
+        self.setStyleSheet(
+            'background-image: url(wood.jfif);'
+        )
+        vbox1 = QVBoxLayout()
+        vbox1.addWidget(self._label)
+
+        hbox1 = QHBoxLayout()
+        # imageLabelOne = QLabel()
+        # imageLabelOne.setStyleSheet(
+        #     'background-image: url(transparent star.png);'
+        # )
+        # imageLabelTwo = QLabel()
+        # imageLabelTwo.setStyleSheet(
+        #     'background-image: url(transparent star.png);'
+        # )
+
+        # hbox1.addWidget(imageLabelOne)
+        totalLabel = QLabel('Total = ' + str(total))
+        totalLabel.setFont(QFont('Arial', 30))
+        totalLabel.setAlignment(Qt.AlignCenter)
+        hbox1.addWidget(totalLabel)
+        # hbox1.addWidget(imageLabelTwo)
+
+        vbox1.addLayout(hbox1)
+        secondCentralWidget.setLayout(vbox1)
+
+
