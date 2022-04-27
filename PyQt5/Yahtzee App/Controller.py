@@ -101,7 +101,7 @@ class Controller:
     def createYourDiceInventory(self):
         if self._initial:
             for index in range(len(self._yourDice)):
-                self._yourDice[index].setFixedSize(50, 150)
+                self._yourDice[index].setFixedSize(50, 100)
                 self._yourDice[index].setSizePolicy(
                     QSizePolicy.Preferred,
                     QSizePolicy.Expanding)

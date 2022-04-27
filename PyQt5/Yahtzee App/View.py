@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QPushButton, QLabel, QWidget, QMainWindow
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QSizePolicy
 
 
 class View(QMainWindow):
@@ -9,10 +9,10 @@ class View(QMainWindow):
         super().__init__()
         # initializing UI
         self.setWindowTitle('PyYahtzee')
-        # self.setStyleSheet(
-        #     'background-image: url(wood.jfif);'
-        # )
-        self.setFixedSize(972, 700)
+        self.setStyleSheet(
+            'background-image: url(Background.png);'
+        )
+        self.setFixedSize(952, 770)
 
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
@@ -164,6 +164,7 @@ class View(QMainWindow):
                 'background-color: transparent;'
                 'border: black;'
                 'font-size: 15px;'
+                'font-size: 15px;'
             )
             self._listOfBottomScores[index].setAlignment(Qt.AlignCenter)
             self._fourthGrid.addWidget(self._listOfBottomScores[index], index + 1, 0)
@@ -172,14 +173,14 @@ class View(QMainWindow):
 
     def establishLabel(self):
         self._label.setText('The Yahtzee Manifesto')
-        self._label.setGeometry(70, 80, 50, 90)
+        self._label.setGeometry(0, 0, 50, 80)
         self._label.setFont(QFont('Arial', 30))
         self._label.setStyleSheet(
             'background-color: #ffd9a7;'
-            'background-image: url(wood.jfif);'
             'font-style: italic;'
             'color: #ff221c'
         )
+        self._label.setAlignment(Qt.AlignCenter)
         self._label.setAlignment(Qt.AlignCenter)
         self.firstVLayout.addWidget(self._label)
 
@@ -197,7 +198,7 @@ class View(QMainWindow):
             self._listOfFirstPossibleScores[index].setStyleSheet(
                 'background-color: grey;'
                 'border: black;'
-                'font-size: 15px;'
+                'font-size: 18px;'
             )
             self._topPossibleScoreVBOX.addWidget(self._listOfFirstPossibleScores[index])
 
@@ -205,6 +206,7 @@ class View(QMainWindow):
         invisibleButton.setStyleSheet(
             'background-color: transparent;'
             'border: none;'
+            'font-size: 18px;'
         )
         self._topPossibleScoreVBOX.addWidget(invisibleButton)
 
@@ -223,7 +225,7 @@ class View(QMainWindow):
             self._listOfSecondPossibleScores[index].setStyleSheet(
                 'background-color: grey;'
                 'border: black;'
-                'font-size: 15px;'
+                'font-size: 18px;'
             )
             self._bottomPossibleScoreVBOX.addWidget(self._listOfSecondPossibleScores[index])
 
