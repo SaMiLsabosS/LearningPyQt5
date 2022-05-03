@@ -10,7 +10,7 @@ class View(QMainWindow):
         self._yellow = '#fff63a'
         # Initializing UI
         self.setWindowTitle('PyConnectFour')
-        self.setFixedSize(952, 675)
+        self.setFixedSize(932, 675)
 
         self._firstCentralWidget = QWidget(self)
         self.setCentralWidget(self._firstCentralWidget)
@@ -39,7 +39,8 @@ class View(QMainWindow):
                         QLabel(), QLabel(), QLabel(), QLabel(), QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(),
                         QLabel(), QLabel(), QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(),
                         QLabel()], [QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()], [QLabel(),
-                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()]]  # make this into a two D array
+                        QLabel(), QLabel(), QLabel(), QLabel(), QLabel(), QLabel()]]
+                        # make this into a two D array
         self._board = QGridLayout()
 
     def getMainScreenLabel(self):
@@ -87,20 +88,18 @@ class View(QMainWindow):
         # eliminating the previous screen
         secondCentralWidget = QWidget(self)
         self.setCentralWidget(secondCentralWidget)
-        secondCentralWidget.setStyleSheet(
-            'background-image: url(connectfourboard.jpg);'
-        )
         # creating the screen
         self._player1Label.setAlignment(Qt.AlignLeft)
+        self._player1Label.setGeometry(0, 0, 130, 130)
         self._topGrid.addWidget(self._player1Label, 0, 0)
         self._yellowLabel.setStyleSheet(
-            'background-color: '+self._yellow+';'
+            'background-color: ' + self._yellow + ';'
         )
         self._topGrid.addWidget(self._yellowLabel, 0, 1)
         self._playersTurnLabel.setAlignment(Qt.AlignCenter)
         self._topGrid.addWidget(self._playersTurnLabel, 0, 2)
         self._redLabel.setStyleSheet(
-            'background-color: '+self._red+';'
+            'background-color: ' + self._red + ';'
         )
         self._topGrid.addWidget(self._redLabel, 0, 3)
         self._player2Label.setAlignment(Qt.AlignRight)
@@ -111,9 +110,6 @@ class View(QMainWindow):
             self._selectGrid.addWidget(self._colChooser[index], 0, index)
         self._playingVBoxLayout.addLayout(self._selectGrid)
 
-        # self._imageLabel.setStyleSheet(
-        #     'background-image: url(connectfourboard.jpg);'
-        # )
         # self._boardOverImage.addWidget(self._imageLabel)
 
         for row in range(6):

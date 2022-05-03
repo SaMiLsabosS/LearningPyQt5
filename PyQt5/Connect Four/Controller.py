@@ -23,38 +23,18 @@ class Controller:
     def establishPlayingButtons(self):
         colChooser = self._view.getColChooser()
         colChooser[0].clicked.connect(lambda: self.rowChooserFunction(0))
+        colChooser[1].clicked.connect(lambda: self.rowChooserFunction(1))
+        colChooser[2].clicked.connect(lambda: self.rowChooserFunction(2))
+        colChooser[3].clicked.connect(lambda: self.rowChooserFunction(3))
+        colChooser[4].clicked.connect(lambda: self.rowChooserFunction(4))
+        colChooser[5].clicked.connect(lambda: self.rowChooserFunction(5))
+        colChooser[6].clicked.connect(lambda: self.rowChooserFunction(6))
 
     def rowChooserFunction(self, buttonNum):
-        playerTurn = self._model.getPlayerTurn()
-        labels = self._view.getLabels()
-        column = labels[buttonNum]
-        player1Color = self._view.getPlayer1Color()
-        player2Color = self._view.getPlayer2Color()
-        colorSet = False
-        index = len(column) - 1
-        playersTurnLabel = self._view.getPlayersTurnLabel()
-        while not colorSet or index == -1:
-            if column[index].palette().window().color().name() != player1Color or \
-                    column[index].palette().window().color().name() != player2Color:
-                if playerTurn == 1:
-                    column[index].setStyleSheet(
-                        'background-color: ' + player1Color + ';'
-                    )
-                else:
-                    column[index].setStyleSheet(
-                        'background-color: ' + player2Color + ';'
-                    )
-                colorSet = True
-            index -= 1
-        if not colorSet:
-            playersTurnLabel.setText(self._model.getPlayerText+' | Column is Full')
-        else:
-            if playerTurn == 1:
-                self._model.setPlayerTurn(2)
-            else:
-                self._model.setPlayerTurn(1)
-            playersTurnLabel.setText(self._model.getPlayerText())
-
+        self._model.checkSpot(buttonNum, self._model.getPlayerTurn(), self._view.getLabels(),
+                              self._view.getPlayer1Color(), self._view.getPlayer2Color(), False, 5,
+                              self._view.getPlayersTurnLabel())
+        self._model.checkForWin(self._view.getLabels(), self._view.getPlayer1Color(), self._view.getPlayer2Color())
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
