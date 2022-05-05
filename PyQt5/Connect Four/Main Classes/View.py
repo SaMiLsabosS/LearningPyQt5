@@ -1,6 +1,21 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QPushButton, QVBoxLayout, QGridLayout, QStackedLayout
+from PyQt5.QtCore import QPropertyAnimation, QEasingCurve, QSize
+
+
+class MainScreenButton(QPushButton):
+    def __init__(self):
+        QPushButton.__init__(self)
+        self.anim = QPropertyAnimation(self, b'geometry')
+        # self._anim.setDuration(250)
+        self.anim.setEasingCurve(QEasingCurve.OutElastic)
+
+    def enterEvent(self, event):
+        # rect = self.geometry()
+        self.anim.setStartValue(self.size())
+        # rect.translate(30, -30)
+        self.anim.setEndValue(QSize(200, 200))
 
 
 class View(QMainWindow):
@@ -18,7 +33,8 @@ class View(QMainWindow):
 
         # starting screen
         self._mainScreenLabel = QLabel('Welcome to Python\nConnect Four!')
-        self._mainScreenButton = QPushButton('Click Here to Play!')
+        self._mainScreenButton = MainScreenButton()
+        self._mainScreenButton.setText('Click Here to Play!')
         self.createStartingScreen()
 
         # play screen
@@ -122,4 +138,22 @@ class View(QMainWindow):
         # self._playingVBoxLayout.addLayout(self._boardOverImage)
         secondCentralWidget.setLayout(self._playingVBoxLayout)
 
+    def createEndScreen(self):
+        winningText = self._playersTurnLabel.text()
+        # eliminating the previous screen
+        thirdCentralWidget = QWidget(self)
+        self.setCentralWidget(thirdCentralWidget)
+        # creating the screen
+        winningLayout = QVBoxLayout()
 
+        winningLabel = QLabel(winningText)
+        winningLabel.setAlignment(Qt.AlignCenter)
+        winningLabel.setStyleSheet(
+            "background-color: transparent;"
+            "border: black;"
+            "font-weight: bold"
+        )
+        winningLabel.setFont(QFont("Arial", 50))
+
+        winningLayout.addWidget(winningLabel)
+        thirdCentralWidget.setLayout(winningLayout)

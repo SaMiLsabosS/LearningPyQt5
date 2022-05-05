@@ -13,6 +13,9 @@ class Model:
     def getPlayerTurn(self):
         return self._playerTurn
 
+    def getWin(self):
+        return self._win
+
     def getPlayerText(self):
         return 'Player ' + str(self._playerTurn) + '\'s Turn'
 
@@ -39,10 +42,16 @@ class Model:
                 self._playerTurn = 1
             playersTurnLabel.setText(self.getPlayerText())
 
-    def checkForWin(self, labels, player1Color, player2Color):
+    def checkForWin(self, labels, player1Color, player2Color, playersTurnLabel):
         # possibilities: horizontal matches, vertical matches, and diagonal matches
         self.checkHorizontalAndVertical(labels, player1Color, player2Color)
         self.checkDiagonals(labels, player1Color, player2Color)
+        if self._win is True:
+            if self.getPlayerTurn() == 1:
+                self._playerTurn = 2
+            else:
+                self._playerTurn = 1
+            playersTurnLabel.setText('Player ' + str(self.getPlayerTurn()) + ' WINS!!!')
 
     def checkHorizontalAndVertical(self, labels, player1Color, player2Color):
         for row in range(6):

@@ -1,6 +1,4 @@
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QApplication
 import View
 import Model
@@ -34,7 +32,11 @@ class Controller:
         self._model.checkSpot(buttonNum, self._model.getPlayerTurn(), self._view.getLabels(),
                               self._view.getPlayer1Color(), self._view.getPlayer2Color(), False, 5,
                               self._view.getPlayersTurnLabel())
-        self._model.checkForWin(self._view.getLabels(), self._view.getPlayer1Color(), self._view.getPlayer2Color())
+        self._model.checkForWin(self._view.getLabels(), self._view.getPlayer1Color(), self._view.getPlayer2Color(),
+                                self._view.getPlayersTurnLabel())
+        if self._model.getWin() is True:
+            self._view.createEndScreen()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
